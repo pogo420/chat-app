@@ -6,12 +6,12 @@ PORT = int(sys.argv[1])
 
 
 with socket.socket() as sk:
-    sk.connect(("localhost", PORT))
+    sk.connect(("localhost", PORT)) # connect 
     while True:
         send = input("client>")
-        sk.sendall(bytes(send.encode("utf-8")))
+        sk.sendall(bytes(send.encode("utf-8"))) # data out
         if send == "bye": break
-        data = sk.recv(1024)
-        print("received:", data)
+        data = sk.recv(1024) # data in
+        print("received:", data) # output in terminal 
 
 
