@@ -1,0 +1,38 @@
+{
+	"message_db": [
+		{
+			"user_id": "1234",
+			"messages": [
+					{
+						"from": "1267",
+						"date": "2020-08-05",
+						"message": "Hello bhai"
+					},
+					{
+						"from": "1267",
+						"date": "2020-08-06",
+						"message": "How are you?"
+					}
+				]
+			},
+			{
+				"user_id": "1267",
+				"messages": [
+						{
+							"from": "1234",
+							"message": "Hello Bro"
+						},
+						{
+							"from": "1234",
+							"date": "2020-08-06",
+							"message": "All good"
+						}
+					]
+				}
+	],
+	"access_key":
+		{
+			"1234": "0laph",
+			"1267": "9hl#k"
+		}
+}
