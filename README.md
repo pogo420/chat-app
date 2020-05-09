@@ -1,6 +1,6 @@
 # chat-app
 
-App for chat application
+chat application in python
 
 ####################### client side ##############################
 

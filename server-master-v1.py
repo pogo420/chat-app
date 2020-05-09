@@ -20,11 +20,9 @@ class ServerMaster:
             return True
         return False
 
-
     def db_connect(self, to, frm, message):
         '''Method for db connect'''
         pass
-
 
     def command_parse(self,s):
         '''Method for command parsing
@@ -42,12 +40,12 @@ class ServerMaster:
         if not self.authenticate(user_id, access_key):
             print("authentication error")
             sys.exit(0)
+
         return (
         client_request.get("to"),
         client_request.get("user_id"),
         client_request.get("message")
         )
-
 
     def main(self):
         '''Main method'''
