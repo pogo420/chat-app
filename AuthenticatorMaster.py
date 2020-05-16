@@ -1,5 +1,6 @@
 import json
 import sys
+from uuid import uuid4
 
 
 class AuthenticatorMaster:
@@ -24,7 +25,7 @@ class AuthenticatorMaster:
 
     def generate_key(self):
         '''Method to generate keys'''
-        pass
+        return uuid4()
 
     def authenticate(self):
         '''Method for authentication'''
@@ -39,25 +40,9 @@ class AuthenticatorMaster:
             return (False, "Access key expired")
         return (False, "Access validation failed")
 
-    # def generate_key(self, user_id, access_key):
-    #     '''Method for generate access key'''
-    #     db = None
-    #     key = None
-    #     with open("chat-db.json") as f:
-    #         db = json.load(f)
-    #         if db.get("access_key").get(user_id) == access_key:
-    #             key = uuid.uuid4()
-    #             db.get("access_key")[user_id] = key
-    #         else:
-    #             return "-1"
-    #
-    #     with open("chat-db.json","w") as f:
-    #         db = json.dump(f)
-    #
-    #     return key
-
 
 if __name__ == "__main__":
     user_id = "1234"
     access_key = "0laph"
-    print(AuthenticatorMaster(user_id, access_key).authenticate())
+    # print(AuthenticatorMaster(user_id, access_key).authenticate())
+    print(AuthenticatorMaster(user_id, access_key).generate_key())
