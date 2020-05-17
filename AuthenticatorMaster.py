@@ -18,7 +18,7 @@ class AuthenticatorMaster:
             if temp:
                 return temp
             return None
-    
+
     def write_access_key(self):
         '''Method for writing acces key and expiry date'''
         key = self.generate_key()
@@ -33,16 +33,15 @@ class AuthenticatorMaster:
 
     def write_exp_date(self):
         '''Method for writing acces key and expiry date'''
-        key = self.generate_key()
         user_id = self.user_id
+        # current_date = ""
         temp = None
         with open("access-db.json") as f:
             temp = json.load(f)
-            temp[user_id]["access-key"] = key
+            temp[user_id]["expiry-date"] = key
 
         with open("access-db.json","w") as f:
             json.dump(temp, f)
-
 
     def generate_key(self):
         '''Method to generate keys'''
