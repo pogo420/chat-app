@@ -18,14 +18,35 @@ class AuthenticatorMaster:
             if temp:
                 return temp
             return None
-
-    def write_access_key(self, user_id):
+    
+    def write_access_key(self):
         '''Method for writing acces key and expiry date'''
-        pass
+        key = self.generate_key()
+        user_id = self.user_id
+        temp = None
+        with open("access-db.json") as f:
+            temp = json.load(f)
+            temp[user_id]["access-key"] = key
+
+        with open("access-db.json","w") as f:
+            json.dump(temp, f)
+
+    def write_exp_date(self):
+        '''Method for writing acces key and expiry date'''
+        key = self.generate_key()
+        user_id = self.user_id
+        temp = None
+        with open("access-db.json") as f:
+            temp = json.load(f)
+            temp[user_id]["access-key"] = key
+
+        with open("access-db.json","w") as f:
+            json.dump(temp, f)
+
 
     def generate_key(self):
         '''Method to generate keys'''
-        return uuid4()
+        return str(uuid4())
 
     def authenticate(self):
         '''Method for authentication'''
@@ -45,4 +66,5 @@ if __name__ == "__main__":
     user_id = "1234"
     access_key = "0laph"
     # print(AuthenticatorMaster(user_id, access_key).authenticate())
-    print(AuthenticatorMaster(user_id, access_key).generate_key())
+    # print(AuthenticatorMaster(user_id, access_key).generate_key())
+    print(AuthenticatorMaster(user_id, access_key).write_access_key())
