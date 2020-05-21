@@ -10,7 +10,9 @@ class DB_connector:
         query= """SELECT {0} from {1}
                   where {2}  """.format(column_name,table_name,condition)
         cursor=self.conn.execute(query)
-        return cursor.fetchall()
+        rows=cursor.fetchall()
+        self.conn.close()
+        return rows
 
     def insert_message(self,table_name, inserted_row):
         """insert query for writing in the datbase"""
@@ -24,9 +26,14 @@ class DB_connector:
         return True
     def update_rows(self,table_name,column_name,value,condition):
         """Create a query to update row/rows(record/records) in table"""
-        query = """UPDATE {0}
+        if isinstance(value,str):
+            query = """UPDATE {0}
                 SET {1} = '{2}'
                 WHERE {3}""".format(table_name, column_name, value, condition)
+        else:
+            query = """UPDATE {0}
+                            SET {1} = {2}
+                            WHERE {3}""".format(table_name, column_name, value, condition)
         self.conn.execute(query)
         self.conn.commit()
         self.conn.close()
