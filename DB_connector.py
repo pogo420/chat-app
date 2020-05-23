@@ -11,7 +11,7 @@ class DB_connector:
                   where {2}  """.format(column_name,table_name,condition)
         cursor=self.conn.execute(query)
         rows=cursor.fetchall()
-        self.conn.close()
+        # self.conn.close()
         return rows
 
     def insert_message(self,table_name, inserted_row):
