@@ -3,9 +3,9 @@ import sqlite3
 class DB_connector:
 
     def __init__(self,databases):
-     self.conn=sqlite3.connect(databases)
+        self.conn=sqlite3.connect(databases)
 
-    def Read_from_DB(self, column_name, table_name, condition):
+    def read_from_db(self, column_name, table_name, condition):
         """construct select query for reading data"""
         query= """SELECT {0} from {1}
                   where {2}  """.format(column_name,table_name,condition)
@@ -22,8 +22,9 @@ class DB_connector:
 
         self.conn.execute(query)
         self.conn.commit()
-        self.conn.close()
+        # self.conn.close()
         return True
+
     def update_rows(self,table_name,column_name,value,condition):
         """Create a query to update row/rows(record/records) in table"""
         if isinstance(value,str):
@@ -36,7 +37,7 @@ class DB_connector:
                             WHERE {3}""".format(table_name, column_name, value, condition)
         self.conn.execute(query)
         self.conn.commit()
-        self.conn.close()
+        # self.conn.close()
         return True
 
     def delete_message_DB(self,table_name, condition):
@@ -45,11 +46,15 @@ class DB_connector:
                         WHERE {1}""".format(table_name, condition)
         self.conn.execute(query)
         self.conn.commit()
-        self.conn.close()
+        # self.conn.close()
         return True
 
-
+    def close_db(self):
+        '''Method for connection closure'''
+        self.conn.close()
+        return 1
 
 
 if __name__ == "__main__":
-    print("Good")
+    # Add uinit test cases
+    pass
