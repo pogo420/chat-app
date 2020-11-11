@@ -1,7 +1,0 @@
-{
-  "database": "./db/access.db",
-  "table_name": "access_data",
-  "access_key_column_name": "access_key",
-  "exp_date_column_name": "exp_date",
-  "user_id_column_name": "user_id"
-}
