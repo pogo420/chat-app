@@ -19,6 +19,11 @@ def message():
             "@arnab12 Hello there",
             "@Puchu-32      Ola bhai wewewe0909...****"
         ],
+        "valid_user_message": [
+            ["arnab", "hello there"],
+            ["arnab12", "Hello there"],
+            ["Puchu-32", "Ola bhai wewewe0909...****"]
+        ],
         "invalid": [
             "Hello",
             "@Al",

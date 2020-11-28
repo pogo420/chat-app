@@ -35,3 +35,12 @@ def test_log_invalid(log_message):
             expected = False  # if anyone of the messages is None implies woring message format
 
     assert expected is True
+
+
+def test_extract_message(message):
+    msg = message.get("valid")
+    user_message = message.get("valid_user_message")
+    expected = [(user_message[i][0], user_message[i][1]) for i in range(len(msg))]
+    result = [MessageParser().extract_to_message(i) for i in msg]
+    assert result == expected
+
