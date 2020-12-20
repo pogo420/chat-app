@@ -1,4 +1,4 @@
-from Application.DbHelper import DbHelper
+from DbHelper import DbHelper
 
 
 class AuthenticationMaster:

@@ -1,6 +1,7 @@
 import asyncio
 import os
 
+
 async def tcp_echo_client(message):
     reader, writer = await asyncio.open_connection(
         os.environ["SERVER_HOST"],
@@ -9,8 +10,8 @@ async def tcp_echo_client(message):
     print(f'Send: {message!r}')
     writer.write(message.encode())
 
-    while data := await reader.read(100):
-        print(f'Received: {data.decode()!r}')
+    data = await reader.read(100)
+    print(f'Received: {data.decode()!r}')
 
 
 async def main():
