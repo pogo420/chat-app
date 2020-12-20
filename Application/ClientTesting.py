@@ -9,11 +9,12 @@ async def tcp_echo_client(message):
     print(f'Send: {message!r}')
     writer.write(message.encode())
 
-    data = await reader.read(100)
-    print(f'Received: {data.decode()!r}')
+    while data := await reader.read(100):
+        print(f'Received: {data.decode()!r}')
 
 
 async def main():
+    print("Introduce yourself: username|password")
     while True:
         await tcp_echo_client(input())
 

@@ -36,7 +36,7 @@ def message():
 def log_message():
     test_messages = {
         "valid": [
-            "arnab| pass",
+            "arnab| ola",
             "Puchu | p--nkol"
         ],
         "invalid": [
@@ -48,3 +48,14 @@ def log_message():
     }
     yield test_messages
 
+@pytest.fixture(scope="session")
+def log_cred_test():
+    test_messages = {
+        "valid": [
+            "arnab|ola"
+        ],
+        "invalid": [
+            "arnab|polo"
+        ]
+    }
+    yield test_messages
