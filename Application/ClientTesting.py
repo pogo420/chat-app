@@ -25,4 +25,4 @@ async def main(file):
 
 
 if __name__ == "__main__":
-    asyncio.run(main(sys.stdin))  # check why stdin works not input
+    asyncio.run(main(sys.stdin))  # check why stdin works not input, does not strip new line
