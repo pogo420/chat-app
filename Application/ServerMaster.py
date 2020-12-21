@@ -29,11 +29,11 @@ class ServerMaster:
         """Method to handle request"""
         self.write_handler(b"Who are you? provide username|password\n", writer)
 
-        async for data in read_util(reader):
-            # data = await reader.read(100)
+        async for data in read_util(reader):  # ended when we close the connection of client
             print("Received:", data.decode())
             self.write_handler(data, writer)
 
+        print("Closing the connection")
         await asyncio.wait(self.tasks)
 
     async def start(self):
