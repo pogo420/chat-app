@@ -2,7 +2,15 @@
 
 chat application in python
 
-##### Capabilities 
+##### Capabilities current
+   - Asyncronous server.
+   - basic chat with user.
+   - Server start: `python Application/ServerMaster.py`
+   - Clients: `python Application/ClientTesting.py`
+   - In client introduce as `$username`
+   - To send message `@user message`
+
+##### Capabilities under plan
 
    - connecting with "user|password"
    - connection will be rejected if authentication failed.
