@@ -1,3 +1,5 @@
+# Not used in current version
+
 from re import match, IGNORECASE
 from typing import Tuple, Optional
 

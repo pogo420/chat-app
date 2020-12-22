@@ -1,3 +1,4 @@
+# Not used in current version
 from Application.DbHelper import DbHelper
 
 

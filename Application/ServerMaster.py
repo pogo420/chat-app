@@ -1,17 +1,8 @@
 import asyncio
 import os
 from asyncio import Queue
-from enum import Enum
 from typing import Dict
-
 from Util import write_util, read_util, write_from_queue
-
-
-class Status(Enum):
-    """Enums for status"""
-    Authenticated = "Authenticated"
-    NotAuthenticated = "NotAuthenticated"
-    InvalidMessageFormat = "InvalidMessageFormat"
 
 
 class ServerMaster:
@@ -20,13 +11,13 @@ class ServerMaster:
     def __init__(self):
         self.host = os.environ["SERVER_HOST"]
         self.port = os.environ["SERVER_PORT"]
-        self.chat_db = os.environ["CHAT_DB"]
-        # self.queue = Queue()
+        self.introduction_message = b"Who are you? $username\n"
+        # self.queue = Queue()  # some issue need to think
         self.users: Dict['user', Queue] = {}
 
     async def handle_commands(self, reader, queue):
         """Method to process messages"""
-        await queue.put(b"Who are you? provide username|password\n")
+        await queue.put(self.introduction_message)
 
         logged_username = None  # temporary logged in user
         to = None  # temporary to user
@@ -41,21 +32,22 @@ class ServerMaster:
 
             elif text.startswith("@"):
                 if not logged_username:
-                    await queue.put(b"Who are you? provide username|password\n")
+                    await queue.put(self.introduction_message)
                     continue
                 to, message = text.split(" ", 1)
                 to = to[1:]
                 if to not in self.users:
                     await queue.put(b"Invalid username\n")
+                    continue  # what if its not there think about it
 
-                user_message = f"{logged_username} {message}\n"
+                user_message = f"<{logged_username}> {message}\n"
                 await self.users.get(to).put(user_message.encode())  # putting message in respective queue of `to` user
 
     async def handle_request(self, reader, writer):
         """Method to handle request"""
-        queue = Queue()
+        queue = Queue()  # check why cant we use global variable
         wh = asyncio.create_task(write_from_queue(writer, queue))  # concurrent write
-        await self.handle_commands(reader,queue)  # awaiting message process
+        await self.handle_commands(reader, queue)  # awaiting message process
         print("Closing connection")
 
     async def start(self):
