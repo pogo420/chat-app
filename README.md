@@ -9,13 +9,6 @@ chat application in python
    - Clients: `python Application/ClientTesting.py`
    - In client introduce as `$username`
    - To send message `@user message`
-
-##### Capabilities under plan
-
-   - connecting with "user|password"
-   - connection will be rejected if authentication failed.
-   - communicating among users.
-   - credentials will be stored in server db/ mostly sqlite or files based on ease.
-   - Code will be in asynchronus mode, using sockets.
-   - A centralized server will control the activities.
-
+   - environmental varables required:
+       - `SERVER_HOST=127.0.0.1`
+       - `SERVER_PORT=8080`
