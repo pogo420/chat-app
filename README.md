@@ -12,3 +12,5 @@ chat application in python
    - environmental varables required:
        - `SERVER_HOST`
        - `SERVER_PORT`
+
+Async programming [notes](https://github.com/pogo420/chat-app/wiki)
