@@ -1,4 +1,4 @@
-from asyncio import StreamWriter, StreamReader
+from asyncio import StreamWriter, StreamReader, Queue
 from typing import AsyncIterator
 
 
@@ -26,3 +26,12 @@ async def read_util(reader: StreamReader) -> AsyncIterator[bytes]:
     if data:
         yield data
 
+
+async def write_from_queue(writer: StreamWriter, queue: Queue):
+    """Function to write message from queue"""
+    try:
+        while (message := await queue.get()) != b"":
+            await write_util(writer, message)
+    finally:
+        await writer.drain()
+        writer.close()

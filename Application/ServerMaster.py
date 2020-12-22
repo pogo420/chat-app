@@ -1,9 +1,10 @@
 import asyncio
 import os
+from asyncio import Queue
 from enum import Enum
 from typing import Dict
 
-from Util import write_util, read_util
+from Util import write_util, read_util, write_from_queue
 
 
 class Status(Enum):
@@ -20,16 +21,13 @@ class ServerMaster:
         self.host = os.environ["SERVER_HOST"]
         self.port = os.environ["SERVER_PORT"]
         self.chat_db = os.environ["CHAT_DB"]
-        self.tasks = set()
-        self.users: Dict['user', 'writer'] = {}
+        # self.queue = Queue()
+        self.users: Dict['user', Queue] = {}
 
-    def write_handler(self, message, writer):
-        """Method for concurrent message write"""
-        self.tasks.add(asyncio.create_task(write_util(writer, message)))
+    async def handle_commands(self, reader, queue):
+        """Method to process messages"""
+        await queue.put(b"Who are you? provide username|password\n")
 
-    async def handle_request(self, reader, writer):
-        """Method to handle request"""
-        self.write_handler(b"Who are you? provide username|password\n", writer)
         logged_username = None  # temporary logged in user
         to = None  # temporary to user
 
@@ -39,22 +37,26 @@ class ServerMaster:
             text = data.decode()
             if text.startswith("$"):
                 logged_username = text[1:]
-                self.users[logged_username] = writer
+                self.users[logged_username] = queue  # assigning the queue to the logged in user
 
             elif text.startswith("@"):
                 if not logged_username:
-                    self.write_handler(b"Who are you? provide username|password\n", writer)
+                    await queue.put(b"Who are you? provide username|password\n")
                     continue
                 to, message = text.split(" ", 1)
                 to = to[1:]
                 if to not in self.users:
-                    self.write_handler(b"Invalid username\n", writer)
-                user_message = f"{logged_username} {message}\n"
-                self.write_handler(user_message.encode(), self.users.get(to))
-                # self.users.get(username)(user_message.encode(), writer)
+                    await queue.put(b"Invalid username\n")
 
-        print("Closing the connection")
-        await asyncio.wait(self.tasks)
+                user_message = f"{logged_username} {message}\n"
+                await self.users.get(to).put(user_message.encode())  # putting message in respective queue of `to` user
+
+    async def handle_request(self, reader, writer):
+        """Method to handle request"""
+        queue = Queue()
+        wh = asyncio.create_task(write_from_queue(writer, queue))  # concurrent write
+        await self.handle_commands(reader,queue)  # awaiting message process
+        print("Closing connection")
 
     async def start(self):
         """Method for starting server"""
